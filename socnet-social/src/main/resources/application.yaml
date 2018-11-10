@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: social
+  datasource:
+    url: jdbc:mysql://localhost:3306/learning_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+
+eldest:
+  date:
+    year: 1950
+
+authentication:
+  jwt:
+    secret:       secret
+    issuer:       http://com.example.org
+    audience:     http://com.example.org
+    clockSkew:    10   # seconds
+    validFor:     864000000 # seconds
+    refreshLimit: 1    # times
+    claimNames:
+      authorities:  authorities
+      refreshCount: refreshCount
+      refreshLimit: refreshLimit

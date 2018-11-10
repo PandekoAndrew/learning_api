@@ -1,0 +1,63 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.5.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    apacheCommonsLangVersion = '2.6'
+    mysqlVersion = '8.0.12'
+    guavaVersion = '26.0-jre'
+    jwtVersion = '1.0.7.RELEASE'
+    auth0SpringSecurityVersion = '1.1.0'
+    jsr250Version = '1.0'
+    jacksonVersion = '2.9.7'
+    jerseyMediaVersion = '2.27'
+    devtoolsVersion = '2.0.5.RELEASE'
+    mockitoVersion = '2.22.0'
+    testNgVersion = '6.8'
+    springSecurityJwtVersion = '2.1.0.RELEASE'
+    jodaTimeVersion = '2.10'
+    jjwtVersion = '0.7.0'
+    springCloudVersion = '2.0.2.RELEASE'
+}
+
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencies {
+        implementation "org.springframework.cloud:spring-cloud-starter-config:$springCloudVersion"
+        testCompile "org.mockito:mockito-core:$mockitoVersion"
+        testCompile "org.testng:testng:$testNgVersion"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    test {
+        useTestNG()
+        testLogging.setLifecycle(testLogging.debug)
+    }
+}
