@@ -33,12 +33,25 @@ public class UserValidationService {
     public Map<String, String> validate(Object target) {
         Map<String, String> errors = new HashMap<>();
         User user = (User) target;
-        if (user.getUsername().length() < 6) {
-            errors.put("username", "Username length less then 6");
-        }
 
-        if (user.getPassword().length() < 6) {
-            errors.put("password", "Password length less then 6");
+        if (user != null) {
+            if (user.getUsername() != null) {
+                if (user.getUsername().length() < 6) {
+                    errors.put("username", "Username length less then 6");
+                }
+            } else {
+                errors.put("username", "must be entered");
+            }
+
+            if (user.getPassword() != null) {
+                if (user.getPassword().length() < 6) {
+                    errors.put("password", "Password length less then 6");
+                }
+            } else {
+                errors.put("password", "must be entered");
+            }
+        } else {
+            errors.put("body", "invalid body");
         }
         return errors;
     }

@@ -78,12 +78,12 @@ public class UserController {
         logger.warn("{}", user);
         Map<String, String> err = validatorService.validate(user);
 
-        if (userService.isExists(user.getUsername())) {
+        if (user != null && userService.isExists(user.getUsername())) {
             err.put("username", "Username already exists");
         }
         if (err.size() > 0) {
-            logger.warn("Validation failed for user {}", user.getUsername());
-            throw new BadRequestException("Validation failed for user:\n" + err);
+            logger.warn("Validation failed for new user");
+            throw new BadRequestException("Validation failed for user:" + err);
         }
         logger.debug("Try to register new User {}", user.getUsername());
         String actualPassword = user.getPassword();
