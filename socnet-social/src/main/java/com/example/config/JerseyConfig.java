@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.controller.LearningController;
 import com.example.controller.UserController;
 import com.example.security.api.exceptionmapper.AccessDeniedExceptionMapper;
 import com.example.security.api.exceptionmapper.AuthenticationExceptionMapper;
@@ -23,6 +24,7 @@ public class JerseyConfig extends ResourceConfig {
      * Register Jersey resources
      */
     public JerseyConfig() {
+        register(LearningController.class);
         register(UserController.class);
         register(AuthenticationResource.class);
         register(AccessDeniedExceptionMapper.class);

@@ -47,7 +47,6 @@ allprojects {
     apply plugin: 'io.spring.dependency-management'
 
     dependencies {
-        implementation "org.springframework.cloud:spring-cloud-starter-config:$springCloudVersion"
         testCompile "org.mockito:mockito-core:$mockitoVersion"
         testCompile "org.testng:testng:$testNgVersion"
     }
