@@ -2,8 +2,10 @@ package com.example.controller;
 
 import com.example.domain.Chapter;
 import com.example.domain.Course;
+import com.example.domain.Lecture;
 import com.example.service.impl.ChapterService;
 import com.example.service.impl.CourseService;
+import com.example.service.impl.LectureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -17,10 +19,12 @@ import javax.ws.rs.core.Response;
 public class LearningController {
     private final ChapterService chapterService;
     private final CourseService courseService;
+    private final LectureService lectureService;
 
-    public LearningController(ChapterService chapterService, CourseService courseService) {
+    public LearningController(ChapterService chapterService, CourseService courseService, LectureService lectureService) {
         this.chapterService = chapterService;
         this.courseService = courseService;
+        this.lectureService = lectureService;
     }
 
     @GET
@@ -115,4 +119,59 @@ public class LearningController {
         return Response.ok().build();
     }
 
+    ////////////////////////////////////////////////////////
+
+    @GET
+    @Path("/courses/{courseId}/lectures/")
+    public Response findLecturesOfChapter(@PathParam("courseId") Integer id) {
+        return Response.ok(lectureService.getLecturesByCourseId(id)).build();
+    }
+
+    @GET
+    @Path("/lectures/")
+    public Response findLectures() {
+        return Response.ok(lectureService.getAllLectures()).build();
+    }
+
+    @GET
+    @Path("/lectures/{id}")
+    public Response findLecture(@PathParam("id") Integer lectureId) {
+        Lecture lecture = lectureService.getLecture(lectureId);
+        if (lecture == null) {
+            throw new NotFoundException("Lecture not found");
+        }
+        return Response.ok(lecture).build();
+    }
+
+    @GET
+    @Path("/courses/{courseId}/lectures/{lectureId}")
+    public Response findLecture(@PathParam("courseId") Integer chapterId, @PathParam("lectureId") Integer lectureId) {
+        Lecture lecture = lectureService.getLecture(lectureId);
+        if (lecture == null) {
+            throw new NotFoundException("Lecture not found");
+        }
+        return Response.ok(lecture).build();
+    }
+
+    @POST
+    @Path("/lectures")
+    public Response createLecture(@RequestBody Lecture lecture) {
+        lectureService.create(lecture);
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("/lectures/{id}")
+    public Response updateLecture(@PathParam("id") Integer id, @RequestBody Lecture lecture) {
+        lecture.setId(id);
+        lectureService.update(lecture);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("/lectures/{id}")
+    public Response deleteLecture(@PathParam("id") Integer id) {
+        lectureService.delete(id);
+        return Response.ok().build();
+    }
 }

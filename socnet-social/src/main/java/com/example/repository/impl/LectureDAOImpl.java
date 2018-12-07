@@ -1,54 +1,52 @@
 package com.example.repository.impl;
 
-import com.example.domain.Course;
-import com.example.repository.CourseDAO;
+import com.example.domain.Lecture;
+import com.example.repository.LectureDAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class CourseDAOImpl implements CourseDAO {
+public class LectureDAOImpl implements LectureDAO {
 
     private SessionFactory sessionFactory;
 
-    @Autowired
-    public CourseDAOImpl(SessionFactory sessionFactory) {
+    public LectureDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public List<Course> findAll() {
+    public List<Lecture> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Course", Course.class)
+            return session.createQuery("FROM Lecture", Lecture.class)
                     .list();
         }
     }
 
     @Override
-    public List<Course> findAllByChapterId(Integer chapterId) {
+    public List<Lecture> findAllByCourseId(Integer chapterId) {
         try (Session session = sessionFactory.openSession()) {
-            List<Course> courses = session.createQuery("FROM Course C WHERE C.chapter.id = :id", Course.class)
+            List<Lecture> lectures = session.createQuery("FROM Lecture L WHERE L.course.id = :id", Lecture.class)
                     .setParameter("id", chapterId)
                     .list();
 
-            return courses;
+            return lectures;
         }
     }
 
     @Override
-    public Course findById(Integer id) {
+    public Lecture findById(Integer id) {
         try (Session session = sessionFactory.openSession()) {
-            List<Course> courses = session.createQuery("FROM Course C WHERE C.id = :id", Course.class)
+            List<Lecture> lectures = session.createQuery("FROM Lecture L WHERE L.id = :id", Lecture.class)
                     .setParameter("id", id)
                     .list();
 
-            if (courses.size() != 0) {
-                return courses.get(0);
+            if (lectures.size() != 0) {
+                return lectures.get(0);
             }
 
             return null;
@@ -56,17 +54,17 @@ public class CourseDAOImpl implements CourseDAO {
     }
 
     @Override
-    public void save(Course course) {
+    public void save(Lecture lecture) {
         try (Session session = sessionFactory.openSession()) {
-            session.save(course);
+            session.save(lecture);
         }
     }
 
     @Override
-    public void update(Course course) {
+    public void update(Lecture lecture) {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
-            session.update(course);
+            session.update(lecture);
             tx.commit();
         }
     }
@@ -75,7 +73,7 @@ public class CourseDAOImpl implements CourseDAO {
     public boolean delete(Integer id) {
         try (Session session = sessionFactory.openSession()) {
             session.getTransaction().begin();
-            Query query = session.createQuery("DELETE FROM Course C WHERE C.id = :id")
+            Query query = session.createQuery("DELETE FROM Lecture L WHERE L.id = :id")
                     .setParameter("id", id);
             int result = query.executeUpdate();
             session.getTransaction().commit();
