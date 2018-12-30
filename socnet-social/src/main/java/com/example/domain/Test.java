@@ -6,12 +6,11 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 
 @Entity
-public class Lecture {
+public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String name;
-    String ref;
     @ManyToOne
     @JoinColumn(name = "course_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -25,12 +24,12 @@ public class Lecture {
         this.id = id;
     }
 
-    public String getRef() {
-        return ref;
+    public String getName() {
+        return name;
     }
 
-    public void setRef(String ref) {
-        this.ref = ref;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Course getCourse() {
@@ -39,13 +38,5 @@ public class Lecture {
 
     public void setCourse(Course course) {
         this.course = course;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
