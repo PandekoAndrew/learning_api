@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * Service for validation user data
@@ -48,7 +47,7 @@ public class UserValidationService {
                 if (user.getPassword().length() < 6) {
                     errors.put("password", "Password length less then 6");
                 }
-
+                /*
                 Pattern pattern = Pattern.compile("[0-9]");
 
                 if (!pattern.matcher(user.getPassword()).find()) {
@@ -60,6 +59,7 @@ public class UserValidationService {
                 if (!pattern.matcher(user.getPassword()).find()) {
                     errors.put("password", "Password must contains letters");
                 }
+                */
             } else {
                 errors.put("password", "must be entered");
             }
